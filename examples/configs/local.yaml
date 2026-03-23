@@ -1,6 +1,6 @@
 platform:
   accel: "gpu"
-  thermompnn_dir: "/home/hdieckhaus/scripts/ThermoMPNN"
+  thermompnn_dir: "/proj/kuhl_lab/ThermoMPNN-D/ThermoMPNN-D"
 
 data_loc:
         megascale_csv: "/home/hdieckhaus/scripts/ThermoMPNN/data/mega_scale/Processed_K50_dG_datasets/Tsuboyama2023_Dataset2_Dataset3_20230416.csv"

@@ -521,7 +521,7 @@ class FireProtDatasetv2(torch.utils.data.Dataset):
 class MegaScaleDatasetv2(torch.utils.data.Dataset):
     """Rewritten Megascale dataset doing truly batched mutation generation (getitem returns 1 sample)"""
 
-    def __init__(self, cfg, split):
+    def __init__(self, cfg, split, flip_sign = False):
 
         self.cfg = cfg
         self.split = split  # which split to retrieve
@@ -613,7 +613,8 @@ class MegaScaleDatasetv2(torch.utils.data.Dataset):
                 tmp['dupe'] = tmp['WT_name'] + '_' + tmp['mut_type']
                 tmp = tmp.drop_duplicates(subset=['dupe']).reset_index(drop=True)
                 mut_list.append(tmp)
-                
+
+
             self.df = pd.concat(mut_list, axis=0).reset_index(drop=True)  # this includes points missing structure data
             
             # load splits produced by mmseqs clustering
@@ -661,6 +662,10 @@ class MegaScaleDatasetv2(torch.utils.data.Dataset):
             epi = cfg.data.epi if 'epi' in cfg.data else False
             if epi:
                 self._generate_epi_dataset()
+
+        if flip_sign:
+            self.df['ddG_ML'] = self.df['ddG_ML'] * -1
+            print('Flipping ddG signs for all data points!')
 
         self._sort_dataset()
 
